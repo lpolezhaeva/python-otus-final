@@ -23,8 +23,14 @@ services:
 
   opencart:
     image: docker.io/bitnami/opencart:3
+    container_name: opencart
     environment:
-      - OPENCART_HOST=${LOCAL_IP}:${OPENCART_PORT}
+#      - OPENCART_HOST=${LOCAL_IP}:${OPENCART_PORT}
+      - OPENCART_HOST=localhost
+#      - APACHE_HTTP_PORT_NUMBER=8080
+#      - APACHE_HTTPS_PORT_NUMBER=443
+      - OPENCART_EXTERNAL_HTTP_PORT_NUMBER=8080
+      - OPENCART_EXTERNAL_HTTPS_PORT_NUMBER=443
       - OPENCART_DATABASE_HOST=mariadb
       - OPENCART_DATABASE_PORT_NUMBER=3306
       - OPENCART_DATABASE_USER=bn_opencart
@@ -67,7 +73,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - PYTHONUNBUFFERED=1
-    command: sh -c "sleep 5 && ping -c 4 $HOST_OPENCART && echo http://$HOST_OPENCART:$PORT_OPENCART && pytest -n $THREADS -o log_cli=true  -o log_cli_level=INFO -v --alluredir /app/allure-results  --browser=$BROWSER --url http://$HOST_OPENCART:$PORT_OPENCART"
+    command: sh -c "sleep 5 && echo http://$HOST_OPENCART:$PORT_OPENCART && pytest selenium_tests/test_product_page.py -n $THREADS -o log_cli=true  -o log_cli_level=INFO -v --alluredir /app/allure-results  --browser=$BROWSER --url http://$HOST_OPENCART:$PORT_OPENCART"
     volumes:
       - ./allure-results:/app/allure-results
       - ./allure-reports:/app/default-reports
@@ -75,6 +81,7 @@ services:
     depends_on:
       - opencart
 #      - selenium
+    network_mode: container:opencart
 
 volumes:
   mariadb_data:

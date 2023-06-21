@@ -7,3 +7,4 @@ def test_admin_login_page(browser):
 
 def test_admin_login_validation(browser):
     AdminLoginPage(browser).check_validation()
+

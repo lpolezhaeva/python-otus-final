@@ -83,12 +83,13 @@ def browser(request):
         service = EdgeService(executable_path=drivers)
         driver = webdriver.Edge(service=service)
 
-    driver.maximize_window()
+    # driver.maximize_window()
 
-    request.addfinalizer(driver.close)
+    # request.addfinalizer(driver.close)
 
     driver.get(url)
     driver.url = url
+    print("Used url:", driver.url)
 
     allure.attach(
         name=driver.session_id,

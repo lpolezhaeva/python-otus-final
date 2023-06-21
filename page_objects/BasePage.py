@@ -1,3 +1,4 @@
+import logging
 import os.path
 
 import allure
@@ -6,6 +7,8 @@ from selenium.webdriver import ActionChains
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+logger = logging.getLogger(__name__)
 
 
 class BasePage:
@@ -31,25 +34,27 @@ class BasePage:
     def element_in_element(self, parent_locator: tuple, child_locator: tuple):
         return self.element(parent_locator).find_element(*child_locator)
 
+    def save_screenshot(self):
+        index = 0
+        os.makedirs("screenshots", exist_ok=True)
+        while os.path.exists(f"screenshots/{index}.png"):
+            index += 1
+        self.driver.get_screenshot_as_file(f"screenshots/{index}.png")
+
     def element(self, locator: tuple):
         try:
-            index = 0
-            os.makedirs("screenshots", exist_ok=True)
-            while os.path.exists(f"screenshots/{index}.png"):
-                index += 1
-            self.driver.get_screenshot_as_file(f"screenshots/{index}.png")
+            self.save_screenshot()
             return WebDriverWait(self.driver, self.TIMEOUT).until(EC.visibility_of_element_located(locator))
-        except TimeoutException:
+        except TimeoutException as e:
+            print("URL in error:", self.driver.url)
+            print("URL in error2:", self.driver.current_url)
+            logger.exception(e)
             allure.attach(
                 name="Screenshot",
                 body=self.driver.get_screenshot_as_png(),
                 attachment_type=allure.attachment_type.PNG
             )
-            index = 0
-            os.makedirs("screenshots", exist_ok=True)
-            while os.path.exists(f"screenshots/{index}.png"):
-                index += 1
-            self.driver.get_screenshot_as_file(f"screenshots/{index}.png")
+            self.save_screenshot()
             raise AssertionError(f"Element is not visible {locator}")
 
     def elements(self, locator: tuple):

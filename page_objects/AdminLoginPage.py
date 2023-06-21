@@ -1,5 +1,10 @@
+import logging
+
+import allure
 from selenium.webdriver.common.by import By
 from page_objects.BasePage import BasePage
+
+logger = logging.getLogger(__name__)
 
 
 class AdminLoginPage(BasePage):
@@ -16,7 +21,18 @@ class AdminLoginPage(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
-        self.driver.get(self.driver.url + "/admin")
+        print("URL:", self.driver.url + "/admin")
+        print("Current url:", self.driver.current_url)
+        try:
+            self.driver.get(self.driver.url + "/admin")
+            import time
+            time.sleep(10)
+        except Exception as e:
+            logger.exception(e)
+            print("Refused url:", self.driver.current_url)
+            raise e
+
+        # self.element(self.PANEL_TITLE)
 
     def check_error_message(self):
         return self.element(self.ERROR_MESSAGE) == " No match for Username and/or Password."
@@ -32,7 +48,19 @@ class AdminLoginPage(BasePage):
     def login_as_admin(self):
         self._send_keys(self.USERNAME_INPUT, self.USERNAME)
         self._send_keys(self.PASSWORD_INPUT, self.PASSWORD)
-        self.element(self.SUBMIT_BUTTON).click()
+        try:
+            self.element(self.SUBMIT_BUTTON).click()
+        except Exception as e:
+            logger.error("Got exception")
+            logger.exception(e)
+
+            allure.attach(
+                name="Screenshot",
+                body=self.driver.get_screenshot_as_png(),
+                attachment_type=allure.attachment_type.PNG
+            )
+            self.save_screenshot()
+            raise e
 
     def check_validation(self):
         self.element(self.SUBMIT_BUTTON).click()
