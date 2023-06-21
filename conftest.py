@@ -99,4 +99,4 @@ def browser(request):
 
 @pytest.fixture(scope="session")
 def weather_api_base_url(request):
-    return request.config.getopt
+    return request.config.getoption("--url_api")

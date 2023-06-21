@@ -6,65 +6,64 @@ from xml.etree import ElementTree
 API_KEY = '51c9c17c706e140e1d067fd62f130720'
 
 
+def test_api_json_schema(weather_api_base_url):
+    """Weather fields in API response"""
+    res = requests.get(weather_api_base_url + f"/data/2.5/weather?lat=44.34&lon=10.99&appid={API_KEY}")
 
-# def test_api_json_schema(weather_api_base_url):
-#     """Weather fields in API response"""
-#     res = requests.get(weather_api_base_url + f"/data/2.5/weather?lat=44.34&lon=10.99&appid={API_KEY}")
-#
-#     schema = {
-#         "coord": {
-#             "lon": "number",
-#             "lat": "number",
-#         },
-#         "weather": [
-#             {
-#                 "id": "number",
-#                 "main": "string",
-#                 "description": "string",
-#                 "icon": "string"
-#             }
-#         ],
-#         "base": "string",
-#         "main": {
-#             "temp": "number",
-#             "feels_like": "number",
-#             "temp_min": "number",
-#             "temp_max": "number",
-#             "pressure": "number",
-#             "humidity": "number",
-#             "sea_level": "number",
-#             "grnd_level": "number"
-#         },
-#         "visibility": "number",
-#         "wind": {
-#             "speed": "number",
-#             "deg": "number",
-#             "gust": "number"
-#         },
-#         "rain": {
-#             "1h": "number"
-#         },
-#         "clouds": {
-#             "all": "number"
-#         },
-#         "dt": "number",
-#         "sys": {
-#             "type": "number",
-#             "id": "number",
-#             "country": "string",
-#             "sunrise": "number",
-#             "sunset": "number"
-#         },
-#         "timezone": "number",
-#         "id": "number",
-#         "name": "string",
-#         "cod": "number"
-#     }
-#
-#     assert res.status_code == 200
-#     validate(instance=res.json(), schema=schema)
-#
-#
+    schema = {
+        "coord": {
+            "lon": "number",
+            "lat": "number",
+        },
+        "weather": [
+            {
+                "id": "number",
+                "main": "string",
+                "description": "string",
+                "icon": "string"
+            }
+        ],
+        "base": "string",
+        "main": {
+            "temp": "number",
+            "feels_like": "number",
+            "temp_min": "number",
+            "temp_max": "number",
+            "pressure": "number",
+            "humidity": "number",
+            "sea_level": "number",
+            "grnd_level": "number"
+        },
+        "visibility": "number",
+        "wind": {
+            "speed": "number",
+            "deg": "number",
+            "gust": "number"
+        },
+        "rain": {
+            "1h": "number"
+        },
+        "clouds": {
+            "all": "number"
+        },
+        "dt": "number",
+        "sys": {
+            "type": "number",
+            "id": "number",
+            "country": "string",
+            "sunrise": "number",
+            "sunset": "number"
+        },
+        "timezone": "number",
+        "id": "number",
+        "name": "string",
+        "cod": "number"
+    }
+
+    assert res.status_code == 200
+    validate(instance=res.json(), schema=schema)
+
+
 # @pytest.mark.parametrize("lat, lon", [(44.34, 10.99), (48.13, 11.58), (51.76, 55.097)])
 # def test_api_current_weather(lat, lon, weather_api_base_url):
 #     """Current weather data"""
@@ -125,4 +124,8 @@ API_KEY = '51c9c17c706e140e1d067fd62f130720'
 # def test_api_format_xml(name, country_code, weather_api_base_url):
 #     """Format - XML"""
 #
-#     res = requests.get(weather_api_
+#     res = requests.get(weather_api_base_url + f"/data/2.5/weather?q={name}&mode=xml&appid={API_KEY}")
+#     data = ElementTree.fromstring(res.content)
+#
+#     assert res.status_code == 200
+#     assert data[0][1].text == country_code
