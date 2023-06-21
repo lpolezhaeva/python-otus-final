@@ -1,1 +1,1 @@
-# python-otus-final
+# python-otus-selenium
