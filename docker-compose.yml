@@ -67,7 +67,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - PYTHONUNBUFFERED=1
-    command: sh -c "sleep 5 && ping -c 4 $HOST_OPENCAR && echo http://$HOST_OPENCART:$PORT_OPENCART && pytest -n $THREADS -o log_cli=true  -o log_cli_level=INFO -v --alluredir /app/allure-results  --browser=$BROWSER --url http://$HOST_OPENCART:$PORT_OPENCART"
+    command: sh -c "sleep 5 && ping -c 4 $HOST_OPENCART && echo http://$HOST_OPENCART:$PORT_OPENCART && pytest -n $THREADS -o log_cli=true  -o log_cli_level=INFO -v --alluredir /app/allure-results  --browser=$BROWSER --url http://$HOST_OPENCART:$PORT_OPENCART"
     volumes:
       - ./allure-results:/app/allure-results
       - ./allure-reports:/app/default-reports
