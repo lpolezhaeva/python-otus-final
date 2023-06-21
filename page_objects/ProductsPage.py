@@ -77,6 +77,7 @@ class ProductsPage(BasePage):
         self.check_success_message()
 
     def copy_product(self):
+        # TODO check - should we pass self.driver here?
         row = TableRow(self.get_table_row(2))
         row.check_row_checkbox()
         self.click_copy_product_button()

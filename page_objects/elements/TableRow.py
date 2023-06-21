@@ -10,6 +10,7 @@ class TableRow(BasePage):
     IMAGE = (By.CSS_SELECTOR, "img")
     TITLE = (By.CSS_SELECTOR, ".text-left")
 
+
     def get_row_text(self):
         return self.element(self.TITLE).text
 

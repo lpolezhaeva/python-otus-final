@@ -43,7 +43,8 @@ class BasePage:
 
     def element(self, locator: tuple):
         try:
-            self.save_screenshot()
+            # TODO consider when self.driver could be a WebElement
+            # self.save_screenshot()
             return WebDriverWait(self.driver, self.TIMEOUT).until(EC.visibility_of_element_located(locator))
         except TimeoutException as e:
             print("URL in error:", self.driver.url)
