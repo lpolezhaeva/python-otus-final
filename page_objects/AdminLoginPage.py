@@ -32,8 +32,6 @@ class AdminLoginPage(BasePage):
             print("Refused url:", self.driver.current_url)
             raise e
 
-        # self.element(self.PANEL_TITLE)
-
     def check_error_message(self):
         return self.element(self.ERROR_MESSAGE) == " No match for Username and/or Password."
 

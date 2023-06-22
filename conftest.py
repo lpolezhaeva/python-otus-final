@@ -3,7 +3,6 @@ import logging
 
 import allure
 import pytest
-import os
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromiumService
 from selenium.webdriver.firefox.service import Service as FFService
@@ -43,9 +42,6 @@ def set_chrome_options() -> Options:
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--ignore-certificate-errors")
-    # chrome_prefs = {}
-    # chrome_options.experimental_options["prefs"] = chrome_prefs
-    # chrome_prefs["profile.default_content_settings"] = {"images": 2}
     return chrome_options
 
 
@@ -64,18 +60,8 @@ def browser(request):
 
     # it works now only for chrome
     if browser == "chrome":
-        # driver = webdriver.Remote("http://selenium:4444/wd/hub", options=set_chrome_options())
-
         service = ChromiumService()
         driver = webdriver.Chrome(service=service, options=set_chrome_options())
-        # driver.implicitly_wait(10)
-        # driver.set_page_load_timeout(10)
-        # # driver.set_window_size(1920, 1080)
-        #
-        print()
-        print("Capabilities:", driver.capabilities)
-        #
-        # #driver = webdriver.Chrome(service=service)
     elif browser == "firefox" or browser == "ff":
         service = FFService(executable_path="/geckodriver")
         driver = webdriver.Firefox(service=service)
@@ -97,6 +83,7 @@ def browser(request):
         attachment_type=allure.attachment_type.JSON)
 
     return driver
+
 
 @pytest.fixture(scope="session")
 def weather_api_base_url(request):

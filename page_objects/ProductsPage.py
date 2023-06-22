@@ -91,6 +91,6 @@ class ProductsPage(BasePage):
         self.element(self.SELECT_ALL_CHECKBOX).click()
         self.element(self.DELETE_PRODUCT_BUTTON).click()
         Alert(self.driver).accept()
-        #self.check_success_message()
+        self.check_success_message()
         # check empty list
         self.check_empty_table()

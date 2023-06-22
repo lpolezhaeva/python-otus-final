@@ -58,7 +58,8 @@ class RegistrationPage(BasePage):
 
     def check_registration_success(self):
         return self.element(self.SUCCESS_MESSAGE_HEADER) == "Your Account Has Been Created!" and \
-               self.element(self.SUCCESS_MESSAGE_PARAGRAPH) == "Congratulations! Your new account has been successfully created!"
+               self.element(self.SUCCESS_MESSAGE_PARAGRAPH) == "Congratulations! Your new account has been " \
+                                                               "successfully created! "
 
     def check_error_message(self):
         return self.element(self.ERROR_MESSAGE) == " Warning: You must agree to the Privacy Policy!"
@@ -72,4 +73,3 @@ class RegistrationPage(BasePage):
     def validate_required_fields(self):
         self.element(self.SUBMIT_BUTTON).click()
         self.check_error_message()
-

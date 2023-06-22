@@ -29,7 +29,6 @@ WORKDIR /app
 ADD requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
-#RUN mkdir all
 
 COPY helpers.py .
 COPY conftest.py .
