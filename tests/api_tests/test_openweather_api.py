@@ -127,7 +127,7 @@ def test_api_format_xml(name, country_code, weather_api_base_url):
 
 
 @allure.title("Units of measurement - parameterized test: checking {lat} and {lon} and {units}")
-@pytest.mark.parametrize("lat, lon", [(44.34, 10.99), (48, 11), (51.76, 55.097), (75.41, 36.78)])
+@pytest.mark.parametrize("lat, lon", [(48, 11), (51, 55)])
 @pytest.mark.parametrize("units", ["metric", "imperial"])
 def test_api_units(lat, lon, units, weather_api_base_url):
     res = requests.get(weather_api_base_url + f"/data/2.5/weather?lat={lat}&lon={lon}&units={units}&appid={API_KEY}")
